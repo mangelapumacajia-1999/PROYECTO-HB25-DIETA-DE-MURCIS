@@ -1,4 +1,8 @@
-# PROYECTO-HB25-DIETA-DE-MURCIS
-- Aplicar la metacodificación de barras de ADN a las dietas de los murciélagos del Neotrópico
-- Optimizar la detección de ADN en el estudio de la ecología trófica de mamíferos con hábitos crípticos.
-- Identificar los componentes dietarios principales a nivel molecular presentes en las heces de 25 especies de murciélagos capturados en Lamanai, Belice.
+# PROYECTO-HB25-ANALISIS-MOLECULAR-DE-DIETA-DE-INSECTO-FITOFAGO
+
+HIPOTESIS: El método de secuenciación por nanoporos permite amplificar e identificar correctamente el ADN de plantas presentes en el tracto digestivo de H. halys.
+
+OBJETIVO GENERAL: Validar un nuevo método molecular de análisis de dieta del insecto fitófago Halyomorpha halys
+- Evaluar la eficiencia y precisión del metodo para identificar ADN vegetal en la dieta del insecto fitófago Halyomorpha halys
+- Identificar los componentes dietarios consumidos por Halyomorpha halys antes y durante el experimento.
+- Determinar cuánto tiempo puede detectarse el ADN de plantas ingeridas en el intestino de Halyomorpha halys.
