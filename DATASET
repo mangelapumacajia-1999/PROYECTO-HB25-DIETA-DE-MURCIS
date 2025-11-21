@@ -1,1 +1,18 @@
+#Se descargaron las secuencias tipo SRA del NCBI en un directorio datos:
+mkdir -p datos2 && cd datos2
 
+echo "=== DESCARGANDO DATOS SRA ==="
+
+prefetch SRR29879561
+prefetch SRR29879562
+prefetch SRR29879566
+prefetch SRR29879575
+prefetch SRR29879578
+prefetch SRR29879582
+prefetch SRR29879585
+prefetch SRR29879591
+prefetch SRR29879596
+prefetch SRR29879606
+prefetch SRR29879607
+prefetch SRR29879610
+prefetch SRR29879612
