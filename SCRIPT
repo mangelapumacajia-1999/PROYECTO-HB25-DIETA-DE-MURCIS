@@ -77,7 +77,7 @@ seqkit stats SRR29879612.fastq
 
 # Análisis de Calidad de datos obtenidos por secuenciación con nanoporos
 
-echo "=== FASTQC ==="
+echo "= FASTQC ="
 fastqc SRR29879561.fastq
 
 ##Realizar el control de calidad con Nanoplot
@@ -134,6 +134,8 @@ NanoPlot --fastq SRR29879607_filtrado.fastq -o SRR29879607_QC_filtered
 NanoPlot --fastq SRR29879610_filtrado.fastq -o SRR29879610_QC_filtered
 NanoPlot --fastq SRR29879612_filtrado.fastq -o SRR29879612_QC_filtered
 
+conda activate metagenomica
+conda install -c bioconda porechop_abi
 
 #Detectar y eliminar adaptadores con Porechop
 echo "=== PORECHOP ==="
