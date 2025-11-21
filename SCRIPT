@@ -1,0 +1,91 @@
+#!/bin/bash
+
+echo "Conda activado"
+source ~/miniconda3/etc/profile.d/conda.sh
+#Activar el entorno de trabajo:
+conda activate metagenomica
+
+conda env list
+
+which prefetch
+which fasterq-dump
+which seqkit
+
+#Situarse en el directorio de trabajo:
+cd ~/ont
+ls -l
+
+#Descargar las secuencias tipo SRA del NCBI en un directorio datos:
+mkdir -p datos2 && cd datos2
+
+echo "=== DESCARGANDO DATOS SRA ==="
+
+prefetch SRR29879561
+prefetch SRR29879562
+prefetch SRR29879566
+prefetch SRR29879575
+prefetch SRR29879578
+prefetch SRR29879582
+prefetch SRR29879585
+prefetch SRR29879591
+prefetch SRR29879596
+prefetch SRR29879606
+prefetch SRR29879607
+prefetch SRR29879610
+prefetch SRR29879612
+
+#Obtener archivos .fastq para que sea entendible
+#En ONT solo se obtiene una data por cada uno (vs. 2 en illumina)
+
+fasterq-dump SRR29879561 --split-files -e 4
+fasterq-dump SRR29879562 --split-files -e 4
+fasterq-dump SRR29879566 --split-files -e 4
+fasterq-dump SRR29879575 --split-files -e 4
+fasterq-dump SRR29879578 --split-files -e 4
+fasterq-dump SRR29879582 --split-files -e 4
+fasterq-dump SRR29879585 --split-files -e 4
+fasterq-dump SRR29879591 --split-files -e 4
+fasterq-dump SRR29879596 --split-files -e 4
+fasterq-dump SRR29879606 --split-files -e 4
+fasterq-dump SRR29879607 --split-files -e 4
+fasterq-dump SRR29879610 --split-files -e 4
+fasterq-dump SRR29879612 --split-files -e 4
+
+head -n 20 SRR29879561.fastq ##para visualizar las 20 primeras lineas del archivo
+## aqui se ve el identificador, la secuencia y las puntuaciones de calidad a cada una de las bases
+
+echo "=== ESTADÍSTICAS ==="
+#Visualizar numero de lecturas y tamaño
+seqkit stats SRR29879561.fastq
+
+# Análisis de Calidad de datos obtenidos por secuenciación con nanoporos
+
+echo "=== FASTQC ==="
+fastqc SRR29879561.fastq
+
+##Realizar el control de calidad con Nanoplot
+
+echo "=== NANOPLOT ==="
+
+NanoPlot --fastq SRR29879561.fastq -o QC_raw
+#Revisar los valores de Q , N50, Quality vs length
+## COMO SE VE ESTA LECTURA ES DE BAJA CALIDAD
+
+#Ahora uso Nanofilt para filtrar las lecturas cortas y de baja calidad
+
+echo "=== FILTRANDO LECTURAS ==="
+NanoFilt -q 10 --length 500 < SRR29879561.fastq > SRR29879561_filtrado.fastq
+
+echo "=== NANOPLOT FILTRADO ==="
+##Realizar el control de calidad del archivo filtrado
+NanoPlot --fastq SRR29879561_filtrado.fastq -o QC_filtered
+
+#Detectar y eliminar adaptadores con Porechop
+echo "=== PORECHOP ==="
+porechop_abi -i SRR29879561_filtrado.fastq -o SRR29879561_clean.fastq
+
+#ALINEAMIENTO
+echo "=== MINIMAP2 ==="
+minimap2 -ax map-ont Malus_ITS2_REFERENCIA.fasta SRR29879561_clean.fastq > SRR29879561.unsorted.sam
+
+echo "=== PROCESO FINALIZADO ==="
