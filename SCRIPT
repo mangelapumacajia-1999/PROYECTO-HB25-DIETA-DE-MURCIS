@@ -5,11 +5,15 @@ source ~/miniconda3/etc/profile.d/conda.sh
 #Activar el entorno de trabajo:
 conda activate metagenomica
 
-conda env list
+echo "HERRAMIENTAS DISPONIBLES"
 
 which prefetch
 which fasterq-dump
 which seqkit
+which NanoPlot
+which NanoFilt
+which porechop_abi
+which minimap
 
 #Situarse en el directorio de trabajo:
 cd ~/ont
@@ -54,9 +58,22 @@ fasterq-dump SRR29879612 --split-files -e 4
 head -n 20 SRR29879561.fastq ##para visualizar las 20 primeras lineas del archivo
 ## aqui se ve el identificador, la secuencia y las puntuaciones de calidad a cada una de las bases
 
-echo "=== ESTADÍSTICAS ==="
+echo " ESTADÍSTICAS "
+
 #Visualizar numero de lecturas y tamaño
 seqkit stats SRR29879561.fastq
+seqkit stats SRR29879562.fastq
+seqkit stats SRR29879566.fastq
+seqkit stats SRR29879575.fastq
+seqkit stats SRR29879578.fastq
+seqkit stats SRR29879582.fastq
+seqkit stats SRR29879585.fastq
+seqkit stats SRR29879591.fastq
+seqkit stats SRR29879596.fastq
+seqkit stats SRR29879606.fastq
+seqkit stats SRR29879607.fastq
+seqkit stats SRR29879610.fastq
+seqkit stats SRR29879612.fastq
 
 # Análisis de Calidad de datos obtenidos por secuenciación con nanoporos
 
@@ -65,27 +82,78 @@ fastqc SRR29879561.fastq
 
 ##Realizar el control de calidad con Nanoplot
 
-echo "=== NANOPLOT ==="
+echo " NANOPLOT "
 
-NanoPlot --fastq SRR29879561.fastq -o QC_raw
+NanoPlot --fastq SRR29879561.fastq -o SRR29879561_QC_raw
+NanoPlot --fastq SRR29879562.fastq -o SRR29879562_QC_raw
+NanoPlot --fastq SRR29879566.fastq -o SRR29879566_QC_raw
+NanoPlot --fastq SRR29879575.fastq -o SRR29879575_QC_raw
+NanoPlot --fastq SRR29879578.fastq -o SRR29879578_QC_raw
+NanoPlot --fastq SRR29879582.fastq -o SRR29879582_QC_raw
+NanoPlot --fastq SRR29879585.fastq -o SRR29879585_QC_raw
+NanoPlot --fastq SRR29879591.fastq -o SRR29879591_QC_raw
+NanoPlot --fastq SRR29879596.fastq -o SRR29879596_QC_raw
+NanoPlot --fastq SRR29879606.fastq -o SRR29879606_QC_raw
+NanoPlot --fastq SRR29879607.fastq -o SRR29879607_QC_raw
+NanoPlot --fastq SRR29879610.fastq -o SRR29879610_QC_raw
+NanoPlot --fastq SRR29879612.fastq -o SRR29879612_QC_raw
+
 #Revisar los valores de Q , N50, Quality vs length
 ## COMO SE VE ESTA LECTURA ES DE BAJA CALIDAD
 
 #Ahora uso Nanofilt para filtrar las lecturas cortas y de baja calidad
 
-echo "=== FILTRANDO LECTURAS ==="
+echo " FILTRANDO LECTURAS "
 NanoFilt -q 10 --length 500 < SRR29879561.fastq > SRR29879561_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879562.fastq > SRR29879562_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879566.fastq > SRR29879566_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879575.fastq > SRR29879575_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879578.fastq > SRR29879578_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879582.fastq > SRR29879582_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879585.fastq > SRR29879585_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879591.fastq > SRR29879591_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879596.fastq > SRR29879596_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879606.fastq > SRR29879606_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879607.fastq > SRR29879607_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879610.fastq > SRR29879610_filtrado.fastq
+NanoFilt -q 10 --length 500 < SRR29879612.fastq > SRR29879612_filtrado.fastq
 
-echo "=== NANOPLOT FILTRADO ==="
+echo " NANOPLOT FILTRADO "
 ##Realizar el control de calidad del archivo filtrado
-NanoPlot --fastq SRR29879561_filtrado.fastq -o QC_filtered
+NanoPlot --fastq SRR29879561_filtrado.fastq -o SRR29879561_QC_filtered
+NanoPlot --fastq SRR29879562_filtrado.fastq -o SRR29879562_QC_filtered
+NanoPlot --fastq SRR29879566_filtrado.fastq -o SRR29879566_QC_filtered
+NanoPlot --fastq SRR29879575_filtrado.fastq -o SRR29879575_QC_filtered
+NanoPlot --fastq SRR29879578_filtrado.fastq -o SRR29879578_QC_filtered
+NanoPlot --fastq SRR29879582_filtrado.fastq -o SRR29879582_QC_filtered
+NanoPlot --fastq SRR29879585_filtrado.fastq -o SRR29879585_QC_filtered
+NanoPlot --fastq SRR29879591_filtrado.fastq -o SRR29879591_QC_filtered
+NanoPlot --fastq SRR29879596_filtrado.fastq -o SRR29879596_QC_filtered
+NanoPlot --fastq SRR29879606_filtrado.fastq -o SRR29879606_QC_filtered
+NanoPlot --fastq SRR29879607_filtrado.fastq -o SRR29879607_QC_filtered
+NanoPlot --fastq SRR29879610_filtrado.fastq -o SRR29879610_QC_filtered
+NanoPlot --fastq SRR29879612_filtrado.fastq -o SRR29879612_QC_filtered
+
 
 #Detectar y eliminar adaptadores con Porechop
 echo "=== PORECHOP ==="
 porechop_abi -i SRR29879561_filtrado.fastq -o SRR29879561_clean.fastq
+porechop_abi -i SRR29879562_filtrado.fastq -o SRR29879562_clean.fastq
+porechop_abi -i SRR29879566_filtrado.fastq -o SRR29879566_clean.fastq
+porechop_abi -i SRR29879575_filtrado.fastq -o SRR29879575_clean.fastq
+porechop_abi -i SRR29879578_filtrado.fastq -o SRR29879578_clean.fastq
+porechop_abi -i SRR29879582_filtrado.fastq -o SRR29879582_clean.fastq
+porechop_abi -i SRR29879585_filtrado.fastq -o SRR29879585_clean.fastq
+porechop_abi -i SRR29879591_filtrado.fastq -o SRR29879591_clean.fastq
+porechop_abi -i SRR29879596_filtrado.fastq -o SRR29879596_clean.fastq
+porechop_abi -i SRR29879606_filtrado.fastq -o SRR29879606_clean.fastq
+porechop_abi -i SRR29879607_filtrado.fastq -o SRR29879607_clean.fastq
+porechop_abi -i SRR29879610_filtrado.fastq -o SRR29879610_clean.fastq
+porechop_abi -i SRR29879612_filtrado.fastq -o SRR29879612_clean.fastq
 
 #ALINEAMIENTO
-echo "=== MINIMAP2 ==="
+
+echo " MINIMAP2 "
 minimap2 -ax map-ont Malus_ITS2_REFERENCIA.fasta SRR29879561_clean.fastq > SRR29879561.unsorted.sam
 
-echo "=== PROCESO FINALIZADO ==="
+echo " PROCESO FINALIZADO "
